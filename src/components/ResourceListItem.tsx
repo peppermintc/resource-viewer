@@ -80,7 +80,7 @@ const ResourceListItem = ({ item, index }: ResourceListItemProps) => {
   };
 
   const onContainerClick = () => {
-    setCurrentContent(value);
+    setCurrentContent(item);
   };
 
   useEffect(() => {
