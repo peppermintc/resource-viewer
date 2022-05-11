@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { ChangeEvent, useEffect, useLayoutEffect, useState } from "react";
 import styled from "styled-components";
+import useActionCreators from "../hooks/useActionCreators";
 
 interface AddURLButtonProps {
   label: string;
@@ -42,16 +43,34 @@ const TextInput = styled.input`
 
 const AddURLButton = ({ label }: AddURLButtonProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string>();
+
+  const { addResource } = useActionCreators();
 
   const onAddButtonClick = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+  };
+
+  useEffect(() => {
+    if (value === undefined) return;
+    if (isOpen === false) {
+      addResource(value);
+      setValue("");
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
   return (
     <AddButtonContainer onClick={onAddButtonClick}>
       <span>{label}</span>
-      <TextInputContainer isOpen={isOpen}>
-        <TextInput type="text" />
+      <TextInputContainer isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
+        <TextInput type="text" onChange={onInputChange} value={value} />
       </TextInputContainer>
     </AddButtonContainer>
   );

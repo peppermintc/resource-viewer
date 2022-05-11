@@ -6,7 +6,7 @@ export interface RootState {
 }
 
 const rootReducer = combineReducers({
-  resourceList: resourceReducer,
+  resource: resourceReducer,
 });
 
 export default rootReducer;

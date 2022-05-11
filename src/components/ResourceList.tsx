@@ -1,4 +1,6 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { RootState } from "../modules";
 import AddImageButton from "./AddImageButton";
 import AddURLButton from "./AddURLButton";
 import ResourceListItem from "./ResourceListItem";
@@ -31,6 +33,10 @@ const List = styled.div`
 `;
 
 const ResourceList = () => {
+  const resourceList = useSelector(
+    (state: RootState) => state.resource.resourceList
+  );
+
   return (
     <Container>
       <Header>
@@ -38,9 +44,9 @@ const ResourceList = () => {
         <AddImageButton label={"이미지 추가"} />
       </Header>
       <List>
-        <ResourceListItem />
-        <ResourceListItem />
-        <ResourceListItem />
+        {resourceList.map((item, index) => (
+          <ResourceListItem key={index} item={item} index={index} />
+        ))}
       </List>
     </Container>
   );

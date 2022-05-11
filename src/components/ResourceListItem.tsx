@@ -1,7 +1,16 @@
-import { ChangeEvent, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ChangeEvent, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import useActionCreators from "../hooks/useActionCreators";
 import EditIcon from "../img/editIcon.png";
 import TrashIcon from "../img/trashIcon.png";
+import { RootState } from "../modules";
+
+interface ResourceListItemProps {
+  item: string;
+  index: number;
+}
 
 const Container = styled.div`
   background-color: white;
@@ -42,9 +51,12 @@ const TextWrite = styled.input`
   background-color: #f7f7f7;
 `;
 
-const ResourceListItem = () => {
+const ResourceListItem = ({ item, index }: ResourceListItemProps) => {
   const [value, setValue] = useState<string>("");
+  const [modifiedValue, setModifiedValue] = useState<string | undefined>();
   const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const { changeResourceListItem, deleteResource } = useActionCreators();
 
   const onEditClick = () => {
     setIsEdit((prevIsEdit) => !prevIsEdit);
@@ -54,6 +66,23 @@ const ResourceListItem = () => {
     const newInputValue = e.target.value;
     setValue(newInputValue);
   };
+
+  const onDeleteClick = () => {
+    deleteResource(index);
+  };
+
+  useEffect(() => {
+    setValue(item);
+  }, [item]);
+
+  useEffect(() => {
+    setModifiedValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    if (modifiedValue === undefined) return;
+    if (isEdit === false) changeResourceListItem(index, modifiedValue);
+  }, [isEdit, modifiedValue]);
 
   return (
     <Container>
@@ -65,7 +94,7 @@ const ResourceListItem = () => {
       </InputContainer>
       <ButtonContainer>
         <img src={EditIcon} alt="edit" onClick={onEditClick} />
-        <img src={TrashIcon} alt="delete" />
+        <img src={TrashIcon} alt="delete" onClick={onDeleteClick} />
       </ButtonContainer>
     </Container>
   );

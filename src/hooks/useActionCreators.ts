@@ -6,13 +6,23 @@ import * as communityActionCreators from "../modules/resource";
 const useActionCreators = () => {
   const dispatch = useDispatch();
 
-  const { setResourceList } = useMemo(
+  const {
+    setResourceList,
+    changeResourceListItem,
+    setCurrentContent,
+    addResource,
+    deleteResource,
+  } = useMemo(
     () => bindActionCreators(communityActionCreators, dispatch),
     [dispatch]
   );
 
   return {
     setResourceList,
+    changeResourceListItem,
+    setCurrentContent,
+    addResource,
+    deleteResource,
   };
 };
 
