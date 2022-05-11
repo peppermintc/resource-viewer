@@ -5,6 +5,8 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: white;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Header = styled.div`
@@ -29,7 +31,7 @@ const CloseButton = styled.img`
 
 const Iframe = styled.iframe`
   width: 100%;
-  height: 100%;
+  flex: 1;
   border: none;
 `;
 
