@@ -19,6 +19,7 @@ const InputContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: right;
+  gap: 8px;
 `;
 
 const ResourceListItem = () => {
