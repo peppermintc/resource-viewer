@@ -9,12 +9,10 @@
 - redux-thunk
 - redux-devtools-extension
 
-## 전역 상태 관리
+### resource 스토어 값
 
-### resource 스토어 구성
-
-- currentContent
-- resourceList
+- `currentContent`
+- `resourceList`
 
 ## typed-design-system 호환 관련
 
