@@ -69,7 +69,11 @@ export const deleteResource =
 // Initial State
 const initialState: ResourceState = {
   currentContent: "",
-  resourceList: [],
+  resourceList: [
+    "https://www.youtube.com/embed/0OSUw7hJfVs",
+    "https://www.robinwieruch.de/react-libraries/",
+    "https://typed.blog/how-to-write-a-better-research-paper-faster/",
+  ],
 };
 
 // Reducer
