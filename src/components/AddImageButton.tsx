@@ -1,5 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import useActionCreators from "../hooks/useActionCreators";
+import { RootState } from "../modules";
 
 const AddButtonContainer = styled.button`
   width: 125px;
@@ -16,6 +19,34 @@ const AddButtonContainer = styled.button`
 const AddImageButton = ({ label }: { label: string }) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
+  const { addResource } = useActionCreators();
+
+  const onFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!imageInputRef) return;
+    if (!e.target) return;
+    if (e.target.files === null) return;
+
+    const fileList = e.target.files;
+
+    const updateImageList = () => {
+      for (let i = 0; i < fileList.length; i++) {
+        const currentFile = fileList[i];
+
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          if (typeof fileReader.result !== "string") return;
+
+          const inputImageUrl: string = fileReader.result;
+          addResource(inputImageUrl);
+        };
+
+        fileReader.readAsDataURL(currentFile);
+      }
+    };
+
+    updateImageList();
+  };
+
   const onAddButtonClick = () => {
     imageInputRef?.current?.click();
   };
@@ -29,6 +60,8 @@ const AddImageButton = ({ label }: { label: string }) => {
         type="file"
         accept="image/*"
         style={{ display: "none" }}
+        multiple={true}
+        onChange={onFileInputChange}
       />
     </AddButtonContainer>
   );

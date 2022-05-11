@@ -7,6 +7,11 @@ interface Action {
   payload: [];
 }
 
+export interface Resource {
+  name: string;
+  src: string;
+}
+
 export interface ResourceState {
   currentContent: string;
   resourceList: string[];
