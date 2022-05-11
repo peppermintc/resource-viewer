@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import useActionCreators from "../hooks/useActionCreators";
+import youtubeValidate from "../utils/youtubeValidate";
 
 interface AddURLButtonProps {
   label: string;
@@ -59,7 +60,8 @@ const AddURLButton = ({ label }: AddURLButtonProps) => {
   useEffect(() => {
     if (value === undefined) return;
     if (isOpen === false) {
-      addResource(value);
+      const newValue = youtubeValidate(value);
+      addResource(newValue);
       setValue("");
     }
 
