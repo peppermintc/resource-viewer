@@ -12,7 +12,7 @@ interface ResourceListItemProps {
   index: number;
 }
 
-const Container = styled.div`
+const Container = styled.div<{ isSelected: boolean }>`
   background-color: white;
   width: 260px;
   height: 90px;
@@ -20,6 +20,8 @@ const Container = styled.div`
   padding: 12px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  border: 1px solid ${({ isSelected }) => (isSelected ? "#38A5E1" : "none")};
 `;
 
 const InputContainer = styled.div`
@@ -56,7 +58,13 @@ const ResourceListItem = ({ item, index }: ResourceListItemProps) => {
   const [modifiedValue, setModifiedValue] = useState<string | undefined>();
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const { changeResourceListItem, deleteResource } = useActionCreators();
+  const currentContent = useSelector(
+    (state: RootState) => state.resource.currentContent
+  );
+  const { changeResourceListItem, deleteResource, setCurrentContent } =
+    useActionCreators();
+
+  const isSelected = currentContent === item;
 
   const onEditClick = () => {
     setIsEdit((prevIsEdit) => !prevIsEdit);
@@ -69,6 +77,10 @@ const ResourceListItem = ({ item, index }: ResourceListItemProps) => {
 
   const onDeleteClick = () => {
     deleteResource(index);
+  };
+
+  const onContainerClick = () => {
+    setCurrentContent(item);
   };
 
   useEffect(() => {
@@ -85,7 +97,7 @@ const ResourceListItem = ({ item, index }: ResourceListItemProps) => {
   }, [isEdit, modifiedValue]);
 
   return (
-    <Container>
+    <Container onClick={onContainerClick} isSelected={isSelected}>
       <InputContainer>
         {isEdit && (
           <TextWrite type="text" value={value} onChange={onInputChange} />

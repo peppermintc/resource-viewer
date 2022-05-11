@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import CloseIcon from "../img/closeSmall.png";
 
+interface URLViewerProps {
+  contentSrc: string;
+}
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -35,14 +39,14 @@ const Iframe = styled.iframe`
   border: none;
 `;
 
-const URLViewer = () => {
+const URLViewer = ({ contentSrc }: URLViewerProps) => {
   return (
     <Container>
       <Header>
-        <Content>http://asdfjlasjdfklajskdl</Content>
+        <Content>{contentSrc}</Content>
         <CloseButton src={CloseIcon} alt="close" />
       </Header>
-      <Iframe src="https://www.robinwieruch.de/react-libraries/" />
+      <Iframe src={contentSrc} />
     </Container>
   );
 };
