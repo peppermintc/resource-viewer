@@ -12,6 +12,7 @@ const useActionCreators = () => {
     setCurrentContent,
     addResource,
     deleteResource,
+    showToast,
   } = useMemo(
     () => bindActionCreators(communityActionCreators, dispatch),
     [dispatch]
@@ -23,6 +24,7 @@ const useActionCreators = () => {
     setCurrentContent,
     addResource,
     deleteResource,
+    showToast,
   };
 };
 

@@ -7,19 +7,16 @@ interface Action {
   payload: [];
 }
 
-export interface Resource {
-  name: string;
-  src: string;
-}
-
 export interface ResourceState {
   currentContent: string;
   resourceList: string[];
+  showToast: boolean;
 }
 
 // Action Types
 const SET_RESOURCE_LIST = "SET_RESOURCE_LIST";
 const SET_CURRENT_CONTENT = "SET_CURRENT_CONTENT";
+const SET_SHOW_TOAST = "SET_SHOW_TOAST";
 
 // Action Creators
 export const setCurrentContent =
@@ -71,6 +68,20 @@ export const deleteResource =
     });
   };
 
+export const showToast = () => (dispatch: Dispatch) => {
+  dispatch({
+    type: SET_SHOW_TOAST,
+    payload: true,
+  });
+
+  setTimeout(() => {
+    dispatch({
+      type: SET_SHOW_TOAST,
+      payload: false,
+    });
+  }, 2000);
+};
+
 // Initial State
 const initialState: ResourceState = {
   currentContent: "",
@@ -79,6 +90,7 @@ const initialState: ResourceState = {
     "https://www.robinwieruch.de/react-libraries/",
     "https://typed.blog/how-to-write-a-better-research-paper-faster/",
   ],
+  showToast: false,
 };
 
 // Reducer
@@ -96,6 +108,11 @@ const resourceReducer = (
       return {
         ...state,
         resourceList: action.payload,
+      };
+    case SET_SHOW_TOAST:
+      return {
+        ...state,
+        showToast: action.payload,
       };
     default:
       return state;

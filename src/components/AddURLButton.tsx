@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import useActionCreators from "../hooks/useActionCreators";
+import validateUrl from "../utils/validateUrl";
 import youtubeValidate from "../utils/youtubeValidate";
 
 interface AddURLButtonProps {
@@ -46,7 +47,7 @@ const AddURLButton = ({ label }: AddURLButtonProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>();
 
-  const { addResource } = useActionCreators();
+  const { addResource, showToast } = useActionCreators();
 
   const onAddButtonClick = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -60,9 +61,13 @@ const AddURLButton = ({ label }: AddURLButtonProps) => {
   useEffect(() => {
     if (value === undefined) return;
     if (isOpen === false) {
-      const newValue = youtubeValidate(value);
-      addResource(newValue);
-      setValue("");
+      let newValue = validateUrl(youtubeValidate(value));
+      if (newValue === "") {
+        showToast();
+      } else {
+        addResource(newValue);
+        setValue("");
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
