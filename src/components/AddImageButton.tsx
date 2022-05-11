@@ -1,8 +1,6 @@
-import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useRef } from "react";
 import styled from "styled-components";
 import useActionCreators from "../hooks/useActionCreators";
-import { RootState } from "../modules";
 
 const AddButtonContainer = styled.button`
   width: 125px;
