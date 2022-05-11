@@ -15,7 +15,7 @@ const Viewer = () => {
 
   return (
     <Container>
-      <URLViewer contentSrc={currentContent} />
+      {currentContent !== "" && <URLViewer contentSrc={currentContent} />}
     </Container>
   );
 };

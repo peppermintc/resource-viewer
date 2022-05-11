@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import useActionCreators from "../hooks/useActionCreators";
 import CloseIcon from "../img/closeSmall.png";
 
 interface URLViewerProps {
@@ -18,13 +19,17 @@ const Header = styled.div`
   height: 50px;
   border-bottom: 1px solid #c4c4c4;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 15px;
 `;
 
 const Content = styled.div`
-  flex: 1;
+  width: 800px;
   font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const CloseButton = styled.img`
@@ -40,11 +45,15 @@ const Iframe = styled.iframe`
 `;
 
 const URLViewer = ({ contentSrc }: URLViewerProps) => {
+  const { setCurrentContent } = useActionCreators();
+
+  const onCloseClick = () => setCurrentContent("");
+
   return (
     <Container>
       <Header>
         <Content>{contentSrc}</Content>
-        <CloseButton src={CloseIcon} alt="close" />
+        <CloseButton src={CloseIcon} alt="close" onClick={onCloseClick} />
       </Header>
       <Iframe src={contentSrc} />
     </Container>
